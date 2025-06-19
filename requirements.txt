@@ -1,0 +1,6 @@
+datasets 
+python-dotenv
+tqdm 
+chromadb 
+langchain-openai 
+langchain-community
