@@ -59,10 +59,10 @@ button:focus-visible {
 }
 
 #app {
-  max-width: 1280px;
-  margin: 0 auto;
-  padding: 2rem;
-  text-align: center;
+  /* Use full width and no extra padding/margins to allow child layout to control spacing */
+  width: 100%;
+  margin: 5%;
+  padding: 5%;
 }
 
 @media (prefers-color-scheme: light) {

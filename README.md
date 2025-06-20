@@ -26,7 +26,7 @@ A Retrieval-Augmented Generation (RAG) demo using Wikipedia as the knowledge bas
              --model text-embedding-ada-002
    ```
    Note that you can pass several parameters to the ingestion job to control the vectorization process. For a full list of parameters to pass, check `scripts/ingest.py` lines 18-24.
-   
+
    This will create or update the `storage/` folder with the ChromaDB vector store.
 
 2. Launch the API and Web services:
@@ -36,6 +36,10 @@ A Retrieval-Augmented Generation (RAG) demo using Wikipedia as the knowledge bas
 
 3. Open your browser and visit:
    - Frontend:  http://localhost:5173
+    You should see a window that looks like this: 
+    <div align="center">
+                 <img src="docs/images/frontend.png" alt="Chat UI Screenshot" width="70%" />
+               </div>
    - Backend API OpenAPI docs:  http://localhost:8000/docs
 
 4. Ask questions in the web UI, powered by your local RAG backend.
@@ -54,7 +58,7 @@ A Retrieval-Augmented Generation (RAG) demo using Wikipedia as the knowledge bas
 
 ## Local Development (Optional)
 
-If you prefer not to use Docker, you can run everything locally in a Python virtual environment:
+If you prefer not to use Docker, you can run everything locally in a Python 3.10 virtual environment:
 
 1. Create & activate a virtual environment:
    ```bash
@@ -80,7 +84,7 @@ If you prefer not to use Docker, you can run everything locally in a Python virt
    npm run dev -- --host 0.0.0.0
    ```
 
-5. Visit http://localhost:5173 and enjoy!
+5. Visit http://localhost:5173.
 
 ## Repository Layout
 
