@@ -18,10 +18,15 @@ A Retrieval-Augmented Generation (RAG) demo using Wikipedia as the knowledge bas
 
 ## Quick Start (Containerized)
 
-1. Build and run the ingestion job:
+1. Build and run the ingestion job to chunk and vectorize the "rag-mini-wikipedia" dataset:
    ```bash
-   docker compose run --rm ingest
+   docker compose run --rm ingest -- \
+             --persist_dir /app/storage \
+             --chunk_size 500 \
+             --model text-embedding-ada-002
    ```
+   Note that you can pass several parameters to the ingestion job to control the vectorization process. For a full list of parameters to pass, check `scripts/ingest.py` lines 18-24.
+   
    This will create or update the `storage/` folder with the ChromaDB vector store.
 
 2. Launch the API and Web services:

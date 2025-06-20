@@ -36,6 +36,8 @@ def load_articles(max_docs: int | None = None):
 def main() -> None:
     t0 = time.time()
     args = parse_args()
+    print(f'Creating vector store with the following configuration: {args}')
+
     os.makedirs(args.persist_dir, exist_ok=True)
     print('Made local vector storage dir.')
 

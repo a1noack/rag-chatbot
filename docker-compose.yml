@@ -36,7 +36,14 @@ services:
     build: *api_build
     env_file: .env
     volumes:
-      - ./storage:/app/storage
+      # Mount project code so local edits to scripts/ingest.py are visible immediately
+      - type: bind
+        source: .
+        target: /app
+      # Persist storage folder for vector store
+      - type: bind
+        source: ./storage
+        target: /app/storage
     entrypoint: ["python", "scripts/ingest.py"]
 
 volumes:
