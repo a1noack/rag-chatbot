@@ -1,6 +1,11 @@
+# Data ingestion/embedding
 datasets 
 python-dotenv
 tqdm 
 chromadb 
 langchain-openai 
 langchain-community
+
+# App backend
+fastapi
+uvicorn[standard]
