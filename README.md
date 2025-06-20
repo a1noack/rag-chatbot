@@ -1,8 +1,88 @@
-# rag-chatbot
+# Wikipedia RAG Chatbot
 
-# Setup
-1. Create a Python virtual environment with Python 3.10+ `python -m venv .venv`.
-2. Activate the virtual environment `source .venv/bin/activate` and install the requirements `pip install -r requirements.txt`.
-3. Ensure you have a `.env` file at the root of this directory with your OpenAI API key.
-4. Run the ingestion script to generate vector embeddings of the wikipedia dataset.
-5. Build the vector store. `python ingest.py --persist_dir storage`. A `storage/` folder will appear containing chroma.sqlite and you'll be ready for the FastAPI RAG backend.
+A Retrieval-Augmented Generation (RAG) demo using Wikipedia as the knowledge base. The backend is powered by FastAPI, LangChain, and ChromaDB, and the frontend is built with Vue.js and Vite.
+
+## Prerequisites
+
+- Docker (v20+) & Docker Compose (v2+)
+- A valid OpenAI API key stored in a `.env` file at the project root:
+  ```bash
+  OPENAI_API_KEY=sk-...YOUR_KEY_HERE...
+  ```
+
+## Services Overview
+
+- **api**: FastAPI server (port `8000`)
+- **web**: Vue.js development server (port `5173`)
+- **ingest**: One-off ingestion container that generates vector embeddings and populates `storage/`
+
+## Quick Start (Containerized)
+
+1. Build and run the ingestion job:
+   ```bash
+   docker compose run --rm ingest
+   ```
+   This will create or update the `storage/` folder with the ChromaDB vector store.
+
+2. Launch the API and Web services:
+   ```bash
+   docker compose up --build
+   ```
+
+3. Open your browser and visit:
+   - Frontend:  http://localhost:5173
+   - Backend API OpenAPI docs:  http://localhost:8000/docs
+
+4. Ask questions in the web UI, powered by your local RAG backend.
+
+## Teardown & Reset
+
+- To stop all running containers:
+  ```bash
+  docker compose down
+  ```
+- To remove the vector store and start fresh:
+  ```bash
+  docker compose down --volumes
+  rm -rf storage/
+  ```
+
+## Local Development (Optional)
+
+If you prefer not to use Docker, you can run everything locally in a Python virtual environment:
+
+1. Create & activate a virtual environment:
+   ```bash
+   python -m venv .venv
+   source .venv/bin/activate
+   pip install -r requirements.txt
+   ```
+
+2. Generate embeddings:
+   ```bash
+   python scripts/ingest.py --persist_dir storage
+   ```
+
+3. Start the backend with live reload:
+   ```bash
+   uvicorn app.main:app --reload --host 0.0.0.0 --port 8000
+   ```
+
+4. In another shell, start the frontend:
+   ```bash
+   cd frontend
+   npm ci
+   npm run dev -- --host 0.0.0.0
+   ```
+
+5. Visit http://localhost:5173 and enjoy!
+
+## Repository Layout
+
+- `app/` — FastAPI application code
+- `frontend/` — Vue.js client application
+- `scripts/ingest.py` — data ingestion & embedding script
+- `storage/` — local vector store (ChromaDB files)
+- `Dockerfile`, `frontend/Dockerfile`, `docker-compose.yml` — container definitions
+
+---

@@ -1,0 +1,43 @@
+version: "3.9"
+
+services:
+  api:
+    # Shared build config for API and ingest
+    build: &api_build
+      context: .
+      dockerfile: Dockerfile
+      args:
+        PIP_CACHE_DIR: /tmp/.cache/pip
+        TMPDIR: /tmp
+    env_file: .env
+    volumes:
+      - ./storage:/app/storage        # reuse local vector DB
+    ports:
+      - "8000:8000"
+
+  web:
+    build:
+      context: ./frontend
+      dockerfile: Dockerfile
+    volumes:
+      - type: bind
+        source: ./frontend
+        target: /app
+      - web_node_modules:/app/node_modules
+    environment:
+      - VITE_BACKEND_URL=http://api:8000
+    ports:
+      - "5173:5173"
+    depends_on:
+      - api
+  
+  ingest:
+    # Dedicated ingestion service using same build as API
+    build: *api_build
+    env_file: .env
+    volumes:
+      - ./storage:/app/storage
+    entrypoint: ["python", "scripts/ingest.py"]
+
+volumes:
+  web_node_modules:

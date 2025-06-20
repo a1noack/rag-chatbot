@@ -1,0 +1,16 @@
+# Ignore local Python virtual environments
+.venv/
+venv/
+env/
+
+# Ignore local data storage (mounted at runtime)
+storage/
+
+# Ignore Git metadata and docs
+.git/
+.gitignore
+
+# Ignore Compose files and environment
+docker-compose.yml
+.env
+frontend/
