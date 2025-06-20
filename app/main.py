@@ -28,6 +28,7 @@ def chat(q: ChatIn):
     history.append(("user", q.message))
     chain   = get_chain()
     resp    = chain({"question": q.message, "chat_history": history})
+    print("response:", resp)
     history.append(("assistant", resp["answer"]))
     return ChatOut(answer=resp["answer"],
-                   sources=[s.metadata["source"] for s in resp["source_documents"]])
+                   sources=[s.page_content for s in resp["source_documents"]])
